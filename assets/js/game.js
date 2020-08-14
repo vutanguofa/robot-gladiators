@@ -57,7 +57,7 @@ var enemyAttack = 12;
 console.log("Enemy's name: " + enemyNames + "\n" + "Enemy's attack: " + enemyAttack + "\n" + "Enemy's health: " + enemyHealth);
 
 /*
-//Function declaration: This is when we create a function using the function keyword first
+//Function declaration: This is when we create a function using the function keyword first. This type of function allows us to call the function first followed by defining the function declaration. For function expressions, the function needs to be declared first before the function can be called.
 function fight() {
     window.alert("Welcome to Robot Gladiators!");
 }
@@ -66,7 +66,7 @@ function fight() {
 
 //Some examples of operators: <, >, <=, >=, ===, ||
 
-//Function expression: This is when we create a function by assigning it to a variable.
+//Function expression: This is when we create a function by assigning it to a variable. The function expression needs to be defined first before the function can be called. For function declartions, the function can be called first followed by delcaring the function.
 var fight = function (enemyName) {
     while (playerHealth > 0 && enemyHealth > 0) {
         // ask user if they'd liked to fight or run
@@ -123,25 +123,54 @@ var fight = function (enemyName) {
     }
 };
 
-for (var i = 0; i < enemyNames.length; i++) {
+// function to start a new game
+var startGame = function () {
+    // reset player stats
+    playerHealth = 100;
+    playerAttack = 10;
+    playerMoney = 10;
+    for (var i = 0; i < enemyNames.length; i++) {
+        if (playerHealth > 0) {
+            window.alert("Welcome to Robot Gladiators! Round " + (i + 1));
+
+            var pickedEnemyName = enemyNames[i];
+
+            enemyHealth = 50;
+
+            fight(pickedEnemyName);
+        }
+        else {
+            window.alert("You have lost your robot in battle! Game Over!");
+            break;
+        }
+    }
+    // play again
+    endGame();
+};
+
+var endGame = function () {
+    // if player is still alive, player wins!
     if (playerHealth > 0) {
-        // let user know what round they are in, remember that arrays start at 0 so it needs to have 1 added to it
-        window.alert("Welcome to Robot Gladiators! Round " + (i + 1));
-
-        // pick new enemy to fight based on the index of the enemyNames array
-        var pickedEnemyName = enemyNames[i];
-
-        // reset enemyHealth before starting new fight
-        enemyHealth = 50;
-
-        // use debugger to pause script from running and check what's going on at that moment in the code
-        // debugger;
-
-        // pass the pickedEnemyName variable's value into the fight function, where it will assume the value of the enemyName parameter
-        fight(pickedEnemyName);
+        window.alert("Great job, you've survived the game! You now have a score of " + playerMoney + ".");
     }
     else {
-        window.alert("You have lost your robot in battle! Game Over!");
-        break;
+        window.alert("You've lost your robot in battle.");
     }
-};
+
+    // ask player if they'd like to play again
+    var playAgainConfirm = window.confirm("Would you like to play again?");
+
+    if (playAgainConfirm) {
+        // restart the game
+        startGame();
+    }
+    else {
+        window.alert("Thank you for playing Robot Gladiators! Come back soon!");
+    }
+}
+
+
+
+// start the game when the page loads by calling the StartGame() function
+startGame();
+
